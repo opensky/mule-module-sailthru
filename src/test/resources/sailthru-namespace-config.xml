@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:spring="http://www.springframework.org/schema/beans"
+      xmlns:sailthru="http://www.mulesoft.org/schema/mule/sailthru"
+      xmlns:test="http://www.mulesoft.org/schema/mule/test"
+	  xmlns:context="http://www.springframework.org/schema/context"      
+
+      xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                          http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
+                          http://www.mulesoft.org/schema/mule/test http://www.mulesoft.org/schema/mule/test/3.2/mule-test.xsd
+                          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                          http://www.mulesoft.org/schema/mule/sailthru http://www.mulesoft.org/schema/mule/sailthru/2.0/mule-sailthru.xsd">
+
+
+	    <context:property-placeholder location="classpath:/test.properties"/>
+
+        <spring:bean id="mockClient" class="org.mockito.Mockito" factory-method="mock">
+            <spring:constructor-arg value="org.mule.module.sailthru.api.MuleSailthruClient"/>
+        </spring:bean>
+
+		<sailthru:config name="sailthruConfig" apiKey="${api_key}" sharedSecret="${shared_secret}" 
+            apiBaseURI="#{T(org.mule.module.sailthru.SailthruCloudConnector).BASE_URI}"/>
+
+	
+        <!--
+           Declare one flow like this one per element you add in your schema.
+
+           See the comment in SailthruNamespaceHandlerTestCase for an example how to send
+           Mule events directly to this flow.
+-->
+       <flow name="theFlow">
+           <sailthru:send emailAddress="#[map-payload:email]" template="#[map-payload:template]">
+                <sailthru:vars ref="#[payload:]"/>
+           </sailthru:send>
+       </flow>       
+       
+       <flow name="multiSendFlow">
+           <sailthru:multi-send emailAddresses-ref="#[map-payload:email]" template="#[map-payload:template]">
+                <sailthru:vars ref="#[payload:]"/>
+           </sailthru:multi-send>
+       </flow>
+       
+       <flow name="emailFlow">
+           <sailthru:email emailAddress="#[map-payload:email]"/>
+       </flow>
+       
+       <flow name="userFlow">
+            <sailthru:user
+                id="#[map-payload:id]"
+                keyType="EXTERNAL_ID"
+                keysConflict="merge"
+                optout="NONE">
+                    <sailthru:id-keys>
+                        <sailthru:id-key key="EMAIL">#[map-payload:email]</sailthru:id-key>
+                    </sailthru:id-keys>
+                    <sailthru:vars ref="#[payload:]"/>
+            </sailthru:user>
+       </flow>
+</mule>

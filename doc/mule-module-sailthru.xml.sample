@@ -1,0 +1,9 @@
+<!-- BEGIN_INCLUDE(sailthru:send) -->
+<sailthru:send email-address="bob@bob.com" template="test">
+<!-- END_INCLUDE(sailthru:email) -->
+<!-- BEGIN_INCLUDE(sailthru:email) -->
+<sailthru:email emailAddress="bob@bob.com">
+<!-- END_INCLUDE(sailthru:email) -->
+<!-- BEGIN_INCLUDE(sailthru:user) -->
+<sailthru:user id="bob@bob.com" key="EMAIL">
+<!-- END_INCLUDE(sailthru:user) -->
