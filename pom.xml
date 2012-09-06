@@ -273,13 +273,13 @@
         <repository>
             <id>opensky-snapshots</id>
             <name>Opensky Snapshots Repository</name>
-            <url>http://nexus.shopopensky.com/content/repositories/snapshots/</url>
+            <url>http://maven.prod.opensky.com:8081/content/repositories/snapshots/</url>
             <layout>default</layout>
         </repository>
         <repository>
             <id>opensky-releases</id>
             <name>MuleForge Releases Repository</name>
-            <url>http://nexus.shopopensky.com/content/repositories/releases/</url>
+            <url>http://maven.prod.opensky.com:8081/content/repositories/releases/</url>
             <layout>default</layout>
         </repository>
     </repositories>
@@ -312,11 +312,11 @@
     <distributionManagement>
         <repository>
             <id>opensky.repo.releases</id>
-            <url>http://nexus.shopopensky.com/content/repositories/releases</url>
+            <url>http://maven.prod.opensky.com:8081/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>opensky.repo.snapshots</id>
-            <url>http://nexus.shopopensky.com/content/repositories/snapshots</url>
+            <url>http://maven.prod.opensky.com:8081/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
